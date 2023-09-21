@@ -6,6 +6,7 @@ export function HomePage() {
   return (
     <>
       <h1>Lockup Helper</h1>
+      <h2>WIP - Do Not Use Yet</h2>
       <p>
         This website can help you to set a customizable combination lock to a
         random number that you don't know, but the computer will know. This can
@@ -24,8 +25,11 @@ export function HomePage() {
       </BigButtons>
       <p className="read-the-docs">
         {/* TODO: Links */}
-        This website built with React and Vite. All code is available for
-        viewing online at GitHub.
+        This website built with React and Vite. All code is available for{' '}
+        <a href="https://github.com/sqrt10pi/lockup-ui">
+          viewing online at GitHub
+        </a>
+        .
       </p>
     </>
   );

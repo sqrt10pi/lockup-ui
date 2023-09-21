@@ -1,3 +1,3 @@
 export function InfoPage() {
-  return null;
+  return <h1> WIP </h1>;
 }

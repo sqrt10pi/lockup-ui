@@ -6,20 +6,25 @@ import { HomePage } from './HomePage';
 import { InfoPage } from './InfoPage';
 import { LockupPage } from './lockup/LockupPage';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <HomePage />,
+    },
+    {
+      path: '/info',
+      element: <InfoPage />,
+    },
+    {
+      path: '/lockup',
+      element: <LockupPage />,
+    },
+  ],
   {
-    path: '/',
-    element: <HomePage />,
-  },
-  {
-    path: '/info',
-    element: <InfoPage />,
-  },
-  {
-    path: '/lockup',
-    element: <LockupPage />,
-  },
-]);
+    basename: '/lockup-ui/',
+  }
+);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
