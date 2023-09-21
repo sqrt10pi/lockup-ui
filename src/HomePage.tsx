@@ -24,12 +24,9 @@ export function HomePage() {
         </BigNavButton>
       </BigButtons>
       <p className="read-the-docs">
-        {/* TODO: Links */}
-        This website built with React and Vite. All code is available for{' '}
-        <a href="https://github.com/sqrt10pi/lockup-ui">
-          viewing online at GitHub
-        </a>
-        .
+        Built with &lt;3 by sqrt10pi. All code is available at{' '}
+        <a href="https://github.com/sqrt10pi/lockup-ui">GitHub</a> under the MIT
+        license.
       </p>
     </>
   );
