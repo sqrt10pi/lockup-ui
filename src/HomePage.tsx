@@ -24,7 +24,9 @@ export function HomePage() {
         </BigNavButton>
       </BigButtons>
       <p className="read-the-docs">
-        Built with &lt;3 by sqrt10pi. All code is available at{' '}
+        Built with &lt;3 by sqrt10pi.
+        <br />
+        All code is available at{' '}
         <a href="https://github.com/sqrt10pi/lockup-ui">GitHub</a> under the MIT
         license.
       </p>
