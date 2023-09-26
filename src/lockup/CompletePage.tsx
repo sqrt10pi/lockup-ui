@@ -116,10 +116,10 @@ export function CompletePage({ state }: { state: CompleteState }) {
 
   return (
     <div>
-      Your final code is {finalCode}
+      {state.treatAsDryRun ? <h2>Your final code is {finalCode}</h2> : <h2>Your final code is safely in the following image. If you are confident that you followed all instructions perfectly, download this image and upload it to your keyholding site of choice</h2>}
       <br />
-      <a href={dataUrl} download="combo.png">
-        Download
+      <a href={dataUrl} download={`lockup-combo-${new Date().toISOString()}.png`}>
+        Download Combo Code Image
       </a>
     </div>
   );
