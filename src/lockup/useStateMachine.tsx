@@ -42,6 +42,7 @@ export interface WelcomeState {
 
 export interface ConfiguredState {
   stage: 'initial-reading';
+  instructionsPerWheel: number,
   wheels: string;
   count: number;
   instructions: Instruction[];
@@ -49,6 +50,7 @@ export interface ConfiguredState {
 
 export interface InitialReadState {
   stage: 'calibration-instruction' | 'calibration-reading';
+  instructionsPerWheel: number,
   wheels: string;
   count: number;
   instructions: Instruction[];
@@ -57,6 +59,7 @@ export interface InitialReadState {
 
 export interface CalibrationCompleteState {
   stage: 'calibration-complete' | 'instruction' | 'self-assess';
+  instructionsPerWheel: number,
   wheels: string;
   count: number;
   instructions: Instruction[];
@@ -67,6 +70,7 @@ export interface CalibrationCompleteState {
 
 export interface CompleteState {
   stage: 'complete';
+  instructionsPerWheel: number,
   wheels: string;
   count: number;
   instructions: Instruction[];
@@ -91,6 +95,7 @@ export type Transition =
       type: 'complete-config';
       payload: {
         wheels: string;
+        instructionsPerWheel: number,
         count: number;
       };
     }
@@ -122,21 +127,39 @@ export type Transition =
       };
     };
 
-// TODO make it not entirely random, make sure that every wheel gets at least 3 changes, make sure that count is never 0. Make sure you never generate the same wheel twice in a row?
 function randomInstructions(
-  n: number,
+  instructionsPerWheel: number,
   count: number,
   wheels: string
 ): Instruction[] {
-  const result: Instruction[] = [];
-  for (let i = 0; i < n; i++) {
-    result.push({
-      wheel: Math.floor(Math.random() * count),
-      up: Math.random() < 0.5,
-      count: Math.floor(Math.random() * wheels.length),
-    });
+  const instructions: Instruction[] = [];
+  const wheelInstructions: Instruction[][] = [];
+
+  for (let i = 0; i < count; i++) {
+    wheelInstructions[i] = [];
+    for (let j = 0; j < instructionsPerWheel; j++) {
+      wheelInstructions[i].push({
+        wheel: i,
+        up: Math.random() < 0.5,
+        count: 1 + Math.floor(Math.random() * (wheels.length / 2)),
+      })
+    }
   }
-  return result;
+
+  let lastWheel: string | null = null;
+  let keysRemaining = Object.keys(wheelInstructions).filter((x: any) => wheelInstructions[x].length > 0)
+  while (true) {
+    keysRemaining = Object.keys(wheelInstructions).filter((x: any) => wheelInstructions[x].length > 0)
+    if (keysRemaining.length === 0) {
+      break;
+    }
+    const preferredKeys: string[] = keysRemaining.filter(x => x !== lastWheel);
+    const key: string = preferredKeys[Math.floor(Math.random() * preferredKeys.length)] || lastWheel!;
+    lastWheel = key;
+    instructions.push(wheelInstructions[key as any].shift()!)
+  }
+
+  return instructions;
 }
 
 function calibrateInstruction(
@@ -280,10 +303,11 @@ export function reducer(state: State, action: Transition): State {
       return {
         ...state,
         stage: 'initial-reading',
+        instructionsPerWheel: action.payload.instructionsPerWheel,
         wheels: action.payload.wheels,
         count: action.payload.count,
         instructions: randomInstructions(
-          7,
+          action.payload.instructionsPerWheel,
           action.payload.count,
           action.payload.wheels
         ),

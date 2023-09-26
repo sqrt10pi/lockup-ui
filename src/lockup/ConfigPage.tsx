@@ -19,6 +19,7 @@ export function ConfigPage({
   const [wheels /*, setWheels*/] = useState('0123456789');
 
   const [count, setCount] = useState('');
+  const [instructionsPerWheel, setInstructionsPerWheel] = useState('3');
 
   return (
     <div>
@@ -35,6 +36,18 @@ export function ConfigPage({
           value={count}
           onChange={(e) => setCount(e.target.value)}
         />
+        <label htmlFor="instructionsPerWheel">
+          How complicated do you want the instructions (instructions per wheel)
+        </label>
+        <select
+          style={{ width: 100 }}
+          id="instructionsPerWheel"
+          value={instructionsPerWheel}
+          onChange={(e) => setInstructionsPerWheel(e.target.value)}>
+          <option value="3">Easy</option>
+          <option value="4">Medium</option>
+          <option value="5">Hard</option>
+        </select>
         {/* <label htmlFor="wheelDigits">What are the values on each wheel?</label>
         <input
           type="text"
@@ -51,6 +64,7 @@ export function ConfigPage({
             payload: {
               wheels,
               count: parseInt(count, 10),
+              instructionsPerWheel: parseInt(instructionsPerWheel, 10),
             },
           })
         }
