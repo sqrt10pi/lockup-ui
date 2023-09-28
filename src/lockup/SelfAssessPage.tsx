@@ -7,10 +7,10 @@ export function SelfAssessPage({
 }) {
   return (
     <div>
-      <h2>Final Review</h2>
+      <h2>Self Assessment</h2>
       <p>
-        You're almost done. Ask yourself if you were able to follow all
-        instructions perfectly.
+        You're almost done. How confident are you that you followed instructions
+        perfectly?
       </p>
       <div>
         <button
@@ -35,7 +35,7 @@ export function SelfAssessPage({
             })
           }
         >
-          I did not make any mistakes
+          I followed instructions perfectly
         </button>
       </div>
     </div>

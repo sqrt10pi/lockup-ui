@@ -1,28 +1,44 @@
-import { Transition } from './useStateMachine';
+import { CalibrationCompleteState, Transition } from './useStateMachine';
 
 export function CalibrationCompletePage({
   dispatch,
-}: {
+}: // state,
+{
   dispatch: React.Dispatch<Transition>;
+  state: CalibrationCompleteState;
 }) {
   return (
     <div>
       <h2>Calibration completed</h2>
 
       <p>
-        It's OK if you realized that you rotated the last wheel instead, or you
-        rotated the wheel down instead of up. The important part is that you
-        changed it in a way that felt intuitive to you when you read the
-        instructions. As long as you continue to orient the lock the same way
-        you did in the previous step, this app will keep track of the correct
-        combination for you.
+        We've now learned the way you're holding your lock today. Keep holding
+        it the way that you're currently orienting it. Also, <b>keep</b> that
+        change that you just made.
       </p>
+      {/* <small>
+        You don't need to know this, but in case you're curious:
+        <ul>
+          <li>
+            The way you're holding the lock means that when we tell you to
+            update the first digit you're actually updating{' '}
+            <strong>
+              {state.calibration.flipLeft
+                ? 'the last digit'
+                : 'the first digit'}
+            </strong>
+            .
+          </li>
+          <li>
+            When we tell you to rotate a digit up that{' '}
+            <strong>
+              {state.calibration.flipUp ? 'increases' : 'decreases'}
+            </strong>{' '}
+            the number.
+          </li>
+        </ul>
+      </small> */}
 
-      <p>
-        If you want to orient the lock differently, reload the page and start
-        over.
-      </p>
-      
       <button
         onClick={() => dispatch({ type: 'complete-calibration-complete' })}
       >

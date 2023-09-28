@@ -38,11 +38,13 @@ export interface Calibration {
 
 export interface WelcomeState {
   stage: 'welcome' | 'config';
+  firstTry: boolean;
 }
 
 export interface ConfiguredState {
   stage: 'initial-reading';
-  instructionsPerWheel: number,
+  firstTry: boolean;
+  instructionsPerWheel: number;
   wheels: string;
   count: number;
   instructions: Instruction[];
@@ -50,7 +52,8 @@ export interface ConfiguredState {
 
 export interface InitialReadState {
   stage: 'calibration-instruction' | 'calibration-reading';
-  instructionsPerWheel: number,
+  firstTry: boolean;
+  instructionsPerWheel: number;
   wheels: string;
   count: number;
   instructions: Instruction[];
@@ -59,7 +62,8 @@ export interface InitialReadState {
 
 export interface CalibrationCompleteState {
   stage: 'calibration-complete' | 'instruction' | 'self-assess';
-  instructionsPerWheel: number,
+  firstTry: boolean;
+  instructionsPerWheel: number;
   wheels: string;
   count: number;
   instructions: Instruction[];
@@ -70,7 +74,8 @@ export interface CalibrationCompleteState {
 
 export interface CompleteState {
   stage: 'complete';
-  instructionsPerWheel: number,
+  firstTry: boolean;
+  instructionsPerWheel: number;
   wheels: string;
   count: number;
   instructions: Instruction[];
@@ -95,7 +100,7 @@ export type Transition =
       type: 'complete-config';
       payload: {
         wheels: string;
-        instructionsPerWheel: number,
+        instructionsPerWheel: number;
         count: number;
       };
     }
@@ -142,21 +147,29 @@ function randomInstructions(
         wheel: i,
         up: Math.random() < 0.5,
         count: 1 + Math.floor(Math.random() * (wheels.length / 2)),
-      })
+      });
     }
   }
 
   let lastWheel: string | null = null;
-  let keysRemaining = Object.keys(wheelInstructions).filter((x: any) => wheelInstructions[x].length > 0)
+  let keysRemaining = Object.keys(wheelInstructions).filter(
+    (x: any) => wheelInstructions[x].length > 0
+  );
   while (true) {
-    keysRemaining = Object.keys(wheelInstructions).filter((x: any) => wheelInstructions[x].length > 0)
+    keysRemaining = Object.keys(wheelInstructions).filter(
+      (x: any) => wheelInstructions[x].length > 0
+    );
     if (keysRemaining.length === 0) {
       break;
     }
-    const preferredKeys: string[] = keysRemaining.filter(x => x !== lastWheel);
-    const key: string = preferredKeys[Math.floor(Math.random() * preferredKeys.length)] || lastWheel!;
+    const preferredKeys: string[] = keysRemaining.filter(
+      (x) => x !== lastWheel
+    );
+    const key: string =
+      preferredKeys[Math.floor(Math.random() * preferredKeys.length)] ||
+      lastWheel!;
     lastWheel = key;
-    instructions.push(wheelInstructions[key as any].shift()!)
+    instructions.push(wheelInstructions[key as any].shift()!);
   }
 
   return instructions;
@@ -292,6 +305,7 @@ export function reducer(state: State, action: Transition): State {
         throw new Error('Invalid state');
       }
       return {
+        ...state,
         stage: 'config',
       };
     }

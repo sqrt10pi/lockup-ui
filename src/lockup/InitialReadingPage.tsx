@@ -20,7 +20,13 @@ export function InitialReadingPage({
 
   return (
     <Wrapper>
-      <h2>Initial Reading</h2>
+      <h2>Initial Reading</h2>{' '}
+      <p>
+        While following the instructions, you need to rotate the lock just by
+        feel. You might want to turn the lock away from you, or just look away.
+        Regardless of how you position the lock, this website will still work.
+        The next few steps will help to determine the orientation of your lock.
+      </p>
       <p>Take a look at your lock now. What does it read to start?</p>
       <LockReading
         reading={reading}

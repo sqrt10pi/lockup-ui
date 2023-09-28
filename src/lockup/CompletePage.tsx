@@ -1,8 +1,10 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { CALIBRATION_INSTRUCTION } from './const';
 import { applyN, CompleteState } from './useStateMachine';
 // @ts-expect-error untyped
 import QRious from 'qrious';
+import { ImageTester } from './ImageTester';
+import { clearFirstTry } from './firstTry';
 
 // http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
 function wrapText(
@@ -114,13 +116,43 @@ export function CompletePage({ state }: { state: CompleteState }) {
     return canvas.toDataURL();
   }, [finalCode, state]);
 
+  useEffect(() => {}, []);
+
   return (
     <div>
-      {state.treatAsDryRun ? <h2>Your final code is {finalCode}</h2> : <h2>Your final code is safely in the following image. If you are confident that you followed all instructions perfectly, download this image and upload it to your keyholding site of choice</h2>}
+      {state.firstTry ? (
+        <h1>
+          This is your first try, so we're revealing your code regardless of how
+          confident you were in your answers. Check now to see if it matches
+          your lock. Also test the downloaded image below to get access to real
+          lockups. On your next try if you're confident in your abilities then
+          you won't see the code.
+        </h1>
+      ) : null}
+      {state.treatAsDryRun || state.firstTry ? (
+        <h2>Your final code is {finalCode}</h2>
+      ) : (
+        <h2>Your final code is in the following image.</h2>
+      )}
       <br />
-      <a href={dataUrl} download={`lockup-combo-${new Date().toISOString()}.png`}>
+      <a
+        href={dataUrl}
+        download={`lockup-combo-${new Date().toISOString()}.png`}
+      >
         Download Combo Code Image
       </a>
+      <div style={{ marginTop: 32 }}>
+        <ImageTester
+          onSuccessfulScan={() => {
+            clearFirstTry();
+          }}
+        >
+          <p>
+            Once you download, drag and drop the image here to confirm that it
+            generated correctly
+          </p>
+        </ImageTester>
+      </div>
     </div>
   );
 }

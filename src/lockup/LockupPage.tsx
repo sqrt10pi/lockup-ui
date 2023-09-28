@@ -9,15 +9,17 @@ import { CompletePage } from './CompletePage';
 import { CalibrationCompletePage } from './CalibrationCompletePage';
 import { InstructionPage } from './InstructionPage';
 import { SelfAssessPage } from './SelfAssessPage';
+import { isFirstTry } from './firstTry';
 
 export function LockupPage() {
   const [state, dispatch] = useReducer(reducer, {
     stage: 'welcome',
+    firstTry: isFirstTry(),
   });
 
   switch (state.stage) {
     case 'welcome': {
-      return <WelcomePage dispatch={dispatch} />;
+      return <WelcomePage dispatch={dispatch} state={state} />;
     }
     case 'config': {
       return <ConfigPage dispatch={dispatch} />;
@@ -32,7 +34,7 @@ export function LockupPage() {
       return <CalibrationReadingPage dispatch={dispatch} state={state} />;
     }
     case 'calibration-complete': {
-      return <CalibrationCompletePage dispatch={dispatch} />;
+      return <CalibrationCompletePage dispatch={dispatch} state={state} />;
     }
     case 'instruction': {
       return <InstructionPage dispatch={dispatch} state={state} />;

@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HomePage } from './HomePage';
 import { InfoPage } from './InfoPage';
 import { LockupPage } from './lockup/LockupPage';
+import { DecodePage } from './DecodePage';
 
 const router = createBrowserRouter(
   [
@@ -19,6 +20,10 @@ const router = createBrowserRouter(
     {
       path: '/lockup',
       element: <LockupPage />,
+    },
+    {
+      path: '/decode',
+      element: <DecodePage />,
     },
   ],
   {

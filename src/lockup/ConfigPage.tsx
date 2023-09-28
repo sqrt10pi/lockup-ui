@@ -7,6 +7,7 @@ const Form = styled.form`
   grid-template-columns: 1fr 100px;
   grid-gap: 1em;
   margin-bottom: 0.5em;
+  text-align: left;
 `;
 
 export function ConfigPage({
@@ -26,9 +27,7 @@ export function ConfigPage({
       <h2>Lock Details</h2>
       <p>First we need to know a little bit about your lock.</p>
       <Form>
-        <label htmlFor="wheelCount">
-          How many wheels or digits are on your lock?
-        </label>
+        <label htmlFor="wheelCount">How many digits are on your lock?</label>
         <input
           style={{ width: 100 }}
           type="number"
@@ -37,17 +36,19 @@ export function ConfigPage({
           onChange={(e) => setCount(e.target.value)}
         />
         <label htmlFor="instructionsPerWheel">
-          How complicated do you want the instructions (instructions per wheel)
+          How many instructions do you want per digit?
         </label>
         <select
           style={{ width: 100 }}
           id="instructionsPerWheel"
           value={instructionsPerWheel}
-          onChange={(e) => setInstructionsPerWheel(e.target.value)}>
-          <option value="3">Easy</option>
-          <option value="4">Medium</option>
-          <option value="5">Hard</option>
+          onChange={(e) => setInstructionsPerWheel(e.target.value)}
+        >
+          <option value="3">3 - Easy</option>
+          <option value="4">4 - Medium</option>
+          <option value="5">5 - Hard</option>
         </select>
+
         {/* <label htmlFor="wheelDigits">What are the values on each wheel?</label>
         <input
           type="text"
@@ -56,6 +57,10 @@ export function ConfigPage({
           onChange={(e) => setWheels(e.target.value)}
         /> */}
       </Form>
+      <p>
+        Also, double check that the digits on your locks rotate{' '}
+        <code>0, 1, 2, 3, 4, 5, 6, 7, 8, 9</code> in that order.
+      </p>
       <button
         disabled={count === ''}
         onClick={() =>
